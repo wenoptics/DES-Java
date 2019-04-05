@@ -1,5 +1,7 @@
 package Algorithm;
 
+import java.util.BitSet;
+
 public class SBox {
     // S boxes ( the core of DES encryption algorithm)
     private static final int[]S1 =  {
@@ -51,4 +53,8 @@ public class SBox {
             2,  1,  14, 7,  4,  10, 8,  13, 15, 12, 9,  0,  3,  5,  6,  11
     };
 
+
+    public static BitSet doSbox(int round_n, BitSet input) {
+        // todo
+    }
 }

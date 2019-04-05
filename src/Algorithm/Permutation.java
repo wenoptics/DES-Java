@@ -62,4 +62,14 @@ public class Permutation {
         //todo
 
     }
+
+    public static BitSet doSBoxExpansionPermutation() {
+
+        // todo
+
+    }
+
+    public static BitSet doSBoxPermutation(BitSet sbox_output) {
+        // todo
+    }
 }
