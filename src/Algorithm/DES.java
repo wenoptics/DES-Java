@@ -43,8 +43,7 @@ public class DES {
 
         // Step 3: the 32-bit swap
         BitSet tmpBitSet;
-        tmpBitSet = left32; left32 = right32;
-        right32 = tmpBitSet;
+        tmpBitSet = left32; left32 = right32; right32 = tmpBitSet;
 
         // Step 4: Do IP inverse
         bitSet = Permutation.doInitialPermutationInv(left32 + right32); // fixme
@@ -54,4 +53,5 @@ public class DES {
 
 
     }
+
 }
