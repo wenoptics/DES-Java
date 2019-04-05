@@ -1,6 +1,7 @@
 package Algorithm;
 
 import java.util.BitSet;
+import javax.crypto.spec.SecretKeySpec;
 
 public class DES {
 
@@ -17,10 +18,13 @@ public class DES {
      * @param key The key that used in DES (56 bits)
      * @return The cipher text in 64 bits
      */
-    public BitSet encrypt(BitSet inputPlainText, BitSet key) {
+    
 
+    public BitSet encrypt(BitSet inputPlainText, BitSet key) {
+    	
+ 
         assert inputPlainText.length() == 64;
-        assert key.length() == 56;
+        assert key.length() == 64;
 
         BitSet[] roundKeys = new KeyScheduler(key).getEncryptionKeys();
 
@@ -43,7 +47,8 @@ public class DES {
 
         // Step 3: the 32-bit swap
         BitSet tmpBitSet;
-        tmpBitSet = left32; left32 = right32; right32 = tmpBitSet;
+        tmpBitSet = left32; left32 = right32;
+        right32 = tmpBitSet;
 
         // Step 4: Do IP inverse
         bitSet = Permutation.doInitialPermutationInv(left32 + right32); // fixme
@@ -53,5 +58,4 @@ public class DES {
 
 
     }
-
 }
