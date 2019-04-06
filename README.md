@@ -6,11 +6,12 @@
 
 ### TODOs:
 
+ - [x] The encryption process
  - [ ] IP and $$ IP^{-1} $$ 
- - [ ] |--Implementations of complete `f` function in DES
+ - [x] |--Implementations of complete `f` function in DES
  - [ ] |----- `SBOX` implementation
- - [ ] The decrypt process
  - [ ] |--The key schedule 
  - [ ] |----- `LS`s
+ - [ ] The decrypting process
  - [ ] Demo program entry and test plaintext/ciphertext
  
