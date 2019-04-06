@@ -1,7 +1,6 @@
 package Algorithm;
 
 import java.util.BitSet;
-import javax.crypto.spec.SecretKeySpec;
 
 public class DES {
 
@@ -36,7 +35,7 @@ public class DES {
         for (int i = 0; i < output.length() / 6; i ++) {
             // Do sbox on every 6-bit block
             BitSet block_6 = output.get(6*i, 6*(i+1));
-            sbox_output += SBox.doSbox(i, block_6);  // fixme Append to the bitSet
+            sbox_output += SBox.doSBox(i, block_6);  // fixme Append to the bitSet
         }
 
         assert sbox_output.length() == 32;

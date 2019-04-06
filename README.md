@@ -6,7 +6,7 @@
 
 ### TODOs:
 
- - [ ] IP and $IP^{-1}$ 
+ - [ ] IP and $$ IP^{-1} $$ 
  - [ ] |--Implementations of complete `f` function in DES
  - [ ] |----- `SBOX` implementation
  - [ ] The decrypt process

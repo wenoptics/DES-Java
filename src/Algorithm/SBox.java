@@ -54,7 +54,18 @@ public class SBox {
     };
 
 
-    public static BitSet doSbox(int round_n, BitSet input) {
+    /**
+     * SBox.
+     *
+     * @param round_n The number of the round. 0 indexed
+     * @param input 6-bit long block
+     * @return 4-bit long BitSet
+     */
+    public static BitSet doSBox(int round_n, BitSet input) {
+
+        assert input.length() == 6;
+
         // todo
+
     }
 }
