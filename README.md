@@ -9,7 +9,7 @@
  - [x] The encryption process
  - [ ] IP and $$ IP^{-1} $$ 
  - [x] |--Implementations of complete `f` function in DES
- - [ ] |----- `SBOX` implementation
+ - [x] |----- `SBOX` implementation
  - [ ] |--The key schedule 
  - [ ] |----- `LS`s
  - [ ] The decrypting process
