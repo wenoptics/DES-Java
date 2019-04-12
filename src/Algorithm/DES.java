@@ -1,6 +1,7 @@
 package Algorithm;
 
-import java.util.BitSet;
+import DataStructures.BitStructure;
+import Util.Utils;
 
 public class DES {
 
@@ -15,11 +16,11 @@ public class DES {
      * @param key_48 the 48 bit round key
      * @return 32-bit BitSet output
      */
-    private BitSet round_f(BitSet r_32, BitSet key_48) {
+    private BitStructure round_f(BitStructure r_32, BitStructure key_48) {
         assert r_32.length() == 32;
         assert key_48.length() == 48;
 
-        BitSet output;
+        BitStructure output;
 
         // Do the expand permutation
         output = Permutation.doSBoxExpansionPermutation();
@@ -31,11 +32,12 @@ public class DES {
         output.xor(key_48);
 
         // Do SBox
-        BitSet sbox_output = new BitSet();
+        BitStructure sbox_output = new BitStructure(0);
         for (int i = 0; i < output.length() / 6; i ++) {
             // Do sbox on every 6-bit block
-            BitSet block_6 = output.get(6*i, 6*(i+1));
-            sbox_output += SBox.doSBox(i, block_6);  // fixme Append to the bitSet
+            BitStructure block_6 = output.get(6*i, 6*(i+1));
+            // Append to the BitStructure
+            sbox_output.extend(SBox.doSBox(i, block_6));
         }
 
         assert sbox_output.length() == 32;
@@ -50,6 +52,8 @@ public class DES {
 
     /**
      * Do DES encryption.
+     *      BitStructure is a encapsulated data structure is that includes BitSet and a length.
+     *
      *      BitSet is a good data structure in JAVA to manipulate bit-array. Which support basic operation like AND, OR
      *      and more importantly XOR as well. See https://docs.oracle.com/javase/7/docs/api/java/util/BitSet.html
      *
@@ -57,27 +61,27 @@ public class DES {
      * @param key The key that used in DES (56 bits)
      * @return The cipher text in 64 bits
      */
-    public BitSet encrypt(BitSet inputPlainText, BitSet key) {
+    public BitStructure encrypt(BitStructure inputPlainText, BitStructure key) {
 
         assert inputPlainText.length() == 64;
         assert key.length() == 64;
 
-        BitSet[] roundKeys = new KeyScheduler(key).getEncryptionKeys();
+        BitStructure[] roundKeys = new KeyScheduler(key).getEncryptionKeys();
 
         // Step 1: initial permutation
-        BitSet bitSet = Permutation.doInitialPermutation(inputPlainText);
+        BitStructure bs = Permutation.doInitialPermutation(inputPlainText);
 
         // Split the bits to the left half & the right half
-        BitSet left32, right32;
-        int _mid = bitSet.length() / 2;
-        left32 = bitSet.get(0, _mid);
-        right32 = bitSet.get(_mid + 1, bitSet.length() - 1);
+        BitStructure left32, right32;
+        int _mid = bs.length() / 2;
+        left32 = bs.get(0, _mid);
+        right32 = bs.get(_mid + 1, bs.length() - 1);
         assert left32.length() == right32.length();
 
         // Step 2: Do the 16 rounds of DES
         for (int r = 0; r < 16; r++) {
             // the left 32 bit is the right 32 of last round
-            BitSet tmp_l32 = right32;
+            BitStructure tmp_l32 = right32;
 
             // Apply the f function
             right32 = round_f(right32, roundKeys[r]);
@@ -89,14 +93,15 @@ public class DES {
         }
 
         // Step 3: the 32-bit swap
-        BitSet tmpBitSet;
+        BitStructure tmpBitSet;
         tmpBitSet = left32; left32 = right32;
         right32 = tmpBitSet;
 
         // Step 4: Do IP inverse
-        bitSet = Permutation.doInitialPermutationInv(left32 + right32); // fixme
+        left32.extend(right32);
+        bs = Permutation.doInitialPermutationInv(left32);
 
-        return bitSet;
+        return bs;
 
 
 

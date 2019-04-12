@@ -1,5 +1,7 @@
 package Algorithm;
 
+import DataStructures.BitStructure;
+
 import java.util.BitSet;
 
 public class Permutation {
@@ -51,38 +53,40 @@ public class Permutation {
             22, 11, 4,  25
         };
 
-    public static BitSet doInitialPermutation(BitSet bitSet) {
+    public static BitStructure doInitialPermutation(BitStructure bs) {
         //todo
 
-        BitSet output = new BitSet(64);
+        BitStructure output = new BitStructure(64);
         for (int i = 0; i < initialP.length; i++) {
-            output.set( i, bitSet.get(initialP [i] - 1 ) );
+            output.set( i, bs.get(initialP [i] - 1 ) );
         }
 
         return output;
 
     }
 
-    public static BitSet doInitialPermutationInv(BitSet bitSet) {
+    public static BitStructure doInitialPermutationInv(BitStructure bs) {
 
         //todo
 
-        BitSet output = new BitSet(64);
+        BitStructure output = new BitStructure(64);
         for (int i = 0; i < initialP.length; i++) {
-            output.set( i, bitSet.get(inverseIP[i] - 1 ) );
+            output.set( i, bs.get(inverseIP[i] - 1 ) );
         }
 
         return output;
 
     }
 
-    public static BitSet doSBoxExpansionPermutation() {
+    public static BitStructure doSBoxExpansionPermutation() {
 
         // todo
+        return null;
 
     }
 
-    public static BitSet doSBoxPermutation(BitSet sbox_output) {
+    public static BitStructure doSBoxPermutation(BitStructure sbox_output) {
         // todo
+        return null;
     }
 }

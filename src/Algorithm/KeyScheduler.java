@@ -1,5 +1,7 @@
 package Algorithm;
 
+import DataStructures.BitStructure;
+
 import java.util.BitSet;
 
 
@@ -16,7 +18,7 @@ public class KeyScheduler {
             14, 6,  61, 53, 45, 37, 29,
             21, 13, 5,  28, 20, 12, 4
         };
-  //Permuted Choice Two
+    //Permuted Choice Two
     public static final int[] PC2 = {
             14, 17, 11, 24, 1,  5,
             3,  28, 15, 6,  21, 10,
@@ -32,15 +34,17 @@ public class KeyScheduler {
     	    1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
     	};
     
-    public KeyScheduler(BitSet key) {
+    public KeyScheduler(BitStructure key) {
         // todo
     }
 
-    public BitSet[] getEncryptionKeys() {
+    public BitStructure[] getEncryptionKeys() {
         //todo
+        return null;
     }
 
-    public BitSet[] getDecryptionKeys() {
+    public BitStructure[] getDecryptionKeys() {
         //todo
+        return null;
     }
 }
