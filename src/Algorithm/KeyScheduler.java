@@ -2,7 +2,7 @@ package Algorithm;
 
 import DataStructures.BitStructure;
 
-import java.util.BitSet;
+
 
 
 public class KeyScheduler {
@@ -34,21 +34,21 @@ public class KeyScheduler {
     	    1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
     	};
 
-			public BitSet[] KeyScheduler(BitSet key) {  // generate all the keys
+			public BitStructure[] KeyScheduler(BitStructure key) {  // generate all the keys
       // todo
-      BitSet[] subKeySet = new BitSet[numberOfSubKey];  // create a List object to contain subkeys
-      BitSet activeKey = permutation(key,PC1);     // perform the PC1 on original key
+      BitStructure[] subKeySet = new BitStructure[bitShift.length];  // create a List object to contain subkeys
+      BitStructure activeKey = permutation(key,PC1);     // perform the PC1 on original key
       int halfKeyLength = activeKey.size()/2;
       int keyLength = activeKey.size();
       int numberOfSubKey = bitShift.length;
 
-      BitSet part1 = activeKey.get(0,halfKeyLength);     // seperate the original key
-      BitSet part2 = activeKey.get(halfKeyLength+1,keyLength);
+      BitStructure part1 = activeKey.get(0,halfKeyLength);     // seperate the original key
+      BitStructure part2 = activeKey.get(halfKeyLength,keyLength);
 
       for(k=0; k<numberOfSubKey; k++){
         part1=rotateLeft(part1,bitShift[k]);            // perform the rotation
         part2=rotateLeft(part2,bitShift[k]);
-        BitSet concat = concatenateTwo(part1,part2);    // concatenate two part of subkey
+        BitStructure concat = concatenateTwo(part1,part2);    // concatenate two part of subkey
         concat = permutation(concat,PC2);               //perform the PC2
         subKeySet[k] = concat;                          // add into List
       }
@@ -57,8 +57,8 @@ public class KeyScheduler {
     }
 
 
-    public BitSet permutation(BitSet in, int[] map ){  // permutation method
-      BitSet out = new Bit();
+    public BitStructure permutation(BitStructure in, int[] map ){  // permutation method
+      BitStructure out = new Bit();
       for(int i=0; i< map.length(); i++){
         boolean temp = in.get(map[i]-1);
         out.set(i,temp);
@@ -66,18 +66,18 @@ public class KeyScheduler {
       return out;
     }
 
-    public BitSet rotateLeft(BitSet in,int step ){  //the rotate function
-      BitSet out = new BitSet();
+    public BitStructure rotateLeft(BitStructure in,int step ){  //the rotate function
+      BitStructure out = new BitStructure();
       for(int i=0; i<in.size(); i++){
         int temp = in.get(i);
-        int index = (i+step)%len;
+        int index = (i-step+in.length)%in.length();
         out.set(index,temp);
       }
       return out;
     }
 
-    public BitSet concatenateTwo (BitSet p1, BitSet p2){  // concatenate two bitset
-      BitSet out = new BitSet();
+    public BitStructure concatenateTwo (BitStructure p1, BitStructure p2){  // concatenate two BitStructure
+      BitStructure out = new BitStructure();
       int p1Length = p1.size();
       int p2Length = p2.size();
 
