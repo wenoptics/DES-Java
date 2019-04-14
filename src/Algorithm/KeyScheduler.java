@@ -34,9 +34,9 @@ public class KeyScheduler {
     	    1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
     	};
 
-			public List<BitSet> KeyScheduler(BitSet key) {  // generate all the keys
+			public BitSet[] KeyScheduler(BitSet key) {  // generate all the keys
       // todo
-      List<BitSet> subKeySet = new ArrayList<>();  // create a List object to contain subkeys
+      BitSet[] subKeySet = new BitSet[numberOfSubKey];  // create a List object to contain subkeys
       BitSet activeKey = permutation(key,PC1);     // perform the PC1 on original key
       int halfKeyLength = activeKey.size()/2;
       int keyLength = activeKey.size();
@@ -50,7 +50,7 @@ public class KeyScheduler {
         part2=rotateLeft(part2,bitShift[k]);
         BitSet concat = concatenateTwo(part1,part2);    // concatenate two part of subkey
         concat = permutation(concat,PC2);               //perform the PC2
-        subKeySet.add(concat);                          // add into List
+        subKeySet[k] = concat;                          // add into List
       }
       return subKeySet
 
