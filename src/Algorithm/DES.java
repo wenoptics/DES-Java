@@ -23,7 +23,7 @@ public class DES {
         BitStructure output;
 
         // Do the expand permutation
-        output = Permutation.doSBoxExpansionPermutation();
+        output = Permutation.doSBoxExpansionPermutation(r_32);  //fixme
 
         // should be expanded to 48 bits long now (from 32 bits)
         assert output.length() == 48;

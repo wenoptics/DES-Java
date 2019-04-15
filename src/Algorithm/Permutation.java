@@ -6,7 +6,7 @@ import java.util.BitSet;
 
 public class Permutation {
     // initial permutation 
-    public static final int[] initialP = {
+    public static final int[] initialP = { 
         58, 50, 42, 34, 26, 18, 10, 2,
         60, 52, 44, 36, 28, 20, 12, 4,
         62, 54, 46, 38, 30, 22, 14, 6,
@@ -53,40 +53,39 @@ public class Permutation {
             22, 11, 4,  25
         };
 
-    public static BitStructure doInitialPermutation(BitStructure bs) {
-        //todo
-
-        BitStructure output = new BitStructure(64);
-        for (int i = 0; i < initialP.length; i++) {
-            output.set( i, bs.get(initialP [i] - 1 ) );
+    public static BitStructure performPermutation(BitStructure bitSet, int targetLen, int[] map) {
+        BitStructure output = new BitStructure(targetLen);
+        for (int i = 0; i < map.length; i++) {
+            output.set( i, bitSet.get(map[i] - 1 ) );
         }
-
         return output;
+    }
+ 
+    
+    public static BitStructure doInitialPermutation(BitStructure bitSet) {
+
+        return performPermutation(bitSet, 64, initialP);
+ 
+    }
+    
+    public static BitStructure doInitialPermutationInv(BitStructure bitSet) {
+
+        return performPermutation(bitSet, 64, inverseIP);
+
+    }
+    
+    public static BitStructure doSBoxExpansionPermutation(BitStructure bitSet) {
+
+        return performPermutation(bitSet, 48, expansion);
 
     }
 
-    public static BitStructure doInitialPermutationInv(BitStructure bs) {
+    public static BitStructure doSBoxPermutation(BitStructure bitSet) {
 
-        //todo
+        return performPermutation(bitSet, 32, pFunction);
 
-        BitStructure output = new BitStructure(64);
-        for (int i = 0; i < initialP.length; i++) {
-            output.set( i, bs.get(inverseIP[i] - 1 ) );
-        }
-
-        return output;
-
-    }
-
-    public static BitStructure doSBoxExpansionPermutation() {
-
-        // todo
-        return null;
-
-    }
-
-    public static BitStructure doSBoxPermutation(BitStructure sbox_output) {
-        // todo
-        return null;
     }
 }
+
+
+

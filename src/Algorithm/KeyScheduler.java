@@ -29,6 +29,7 @@ public class KeyScheduler {
             44, 49, 39, 56, 34, 53,
             46, 42, 50, 36, 29, 32
     };
+
     // left bit shifting by one for bits 1,2,9,16 and by two for the rest of the bits
     public static final int bitShift[] = {
             1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
@@ -39,36 +40,35 @@ public class KeyScheduler {
         this.key = key;
     }
 
-
-    public BitStructure permutation(BitStructure in, int[] map) {  // permutation method
-        BitStructure out = new BitStructure();
-        for (int i = 0; i < map.length(); i++) {
+    public BitStructure permutation(BitStructure in, int targetLen, int[] map) {  // permutation method
+        BitStructure out = new BitStructure(targetLen); // todo
+        for (int i = 0; i < map.length; i++) {
             boolean temp = in.get(map[i] - 1);
             out.set(i, temp);
         }
         return out;
     }
 
-    public BitSet rotateLeft(BitSet in, int step) {  //the rotate function
-        BitSet out = new BitSet();
-        for (int i = 0; i < in.size(); i++) {
-            int temp = in.get(i);
-            int index = (i + step) % in.length();
+    public static BitStructure rotateLeft(BitStructure in, int step) {  //the rotate function
+        BitStructure out = new BitStructure(in.length());
+        for (int i = 0; i < in.length(); i++) {
+            boolean temp = in.get(i);
+            int index = (i - step + in.length()) % in.length();
             out.set(index, temp);
         }
         return out;
     }
 
-    public BitSet concatenateTwo(BitSet p1, BitSet p2) {  // concatenate two bitset
-        BitSet out = new BitSet();
-        int p1Length = p1.size();
-        int p2Length = p2.size();
+    public BitStructure concatenateTwo(BitStructure p1, BitStructure p2) {  // concatenate two bitset
+        BitStructure out = new BitStructure(1);  // fixme
+        int p1Length = p1.length();
+        int p2Length = p2.length();
 
-        for (j = 0; j < p1Length; j++) {
+        for (int j = 0; j < p1Length; j++) {
             boolean p1Bit = p1.get(j);
             out.set(j, p1Bit);
         }
-        for (i = 0; i < p2Length; i++) {
+        for (int i = 0; i < p2Length; i++) {
             boolean p2Bit = p2.get(i);
             out.set(p1Length + i, p2Bit);
         }
@@ -77,22 +77,26 @@ public class KeyScheduler {
     }
 
 
+    public static final int ROUND_N = bitShift.length;
+
     public BitStructure[] getEncryptionKeys() {
-        BitSet[] subKeySet = new BitSet[numberOfSubKey];  // create a List object to contain subkeys
-        BitSet activeKey = permutation(this.key, PC1);     // perform the PC1 on original key
-        int halfKeyLength = activeKey.size() / 2;
-        int keyLength = activeKey.size();
-        int numberOfSubKey = bitShift.length;
 
-        BitSet part1 = activeKey.get(0, halfKeyLength);     // seperate the original key
-        BitSet part2 = activeKey.get(halfKeyLength + 1, keyLength);
+        BitStructure[] subKeySet = new BitStructure[ROUND_N];  // create a List object to contain subkeys
+        BitStructure activeKey = Permutation.performPermutation(this.key, 56, PC1);     // perform the PC1 on original key
+        assert activeKey.length() == 56;
+        int halfKeyLength = activeKey.length() / 2;
+        int keyLength = activeKey.length();
 
-        for (int k = 0; k < numberOfSubKey; k++) {
+        BitStructure part1 = activeKey.get(0, halfKeyLength);     // seperate the original key
+        assert part1.length() == halfKeyLength;
+        BitStructure part2 = activeKey.get(halfKeyLength, keyLength);
+
+        for (int k = 0; k < ROUND_N; k++) {
             part1 = rotateLeft(part1, bitShift[k]);            // perform the rotation
             part2 = rotateLeft(part2, bitShift[k]);
-            BitSet concat = concatenateTwo(part1, part2);    // concatenate two part of subkey
-            concat = permutation(concat, PC2);               //perform the PC2
-            subKeySet[k] = concat;                          // add into List
+            part1.extend(part2);                                // concatenate two part of subkey
+            part1 = Permutation.performPermutation(part1, 48, PC2);               //perform the PC2
+            subKeySet[k] = part1;                          // add into List
         }
         return subKeySet;
     }

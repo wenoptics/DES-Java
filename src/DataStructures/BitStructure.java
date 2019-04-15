@@ -44,7 +44,7 @@ public class BitStructure {
 
     public BitStructure get(int fromBit, int toBit) {
         assert fromBit < this.length();
-        assert toBit < this.length();
+        assert toBit <= this.length();
         return new BitStructure(bitSet.get(fromBit, toBit), toBit - fromBit);
     }
 
