@@ -67,10 +67,88 @@ public class BitStructureTest {
     @Test
     public void getValue() {
         BitStructure bs1 = new BitStructure(new int[]{0, 1});
-        assertEquals(1, bs1.getValue());
+        assertEquals(2, bs1.getValue());
 
         bs1 = new BitStructure(new int[]{1, 0});
-        assertEquals(2, bs1.getValue());
+        assertEquals(1, bs1.getValue());
+    }
+
+    @Test
+    public void fromBytes() {
+        BitStructure bs1 = new BitStructure(new byte[]{2, 13, 127});
+        assertArrayEquals(
+                new int[] {
+                        0,1,0,0,0,0,0,0,
+                        1,0,1,1,0,0,0,0,
+                        1,1,1,1,1,1,1,0,
+                },
+                bs1.toArray()
+        );
+
+        bs1 = new BitStructure(new byte[]{2, 13, 127}, 16);
+        assertArrayEquals(
+                new int[] {
+                        0,1,0,0,0,0,0,0,
+                        1,0,1,1,0,0,0,0
+                },
+                bs1.toArray()
+        );
+
+        bs1 = new BitStructure(new byte[]{2, 13, 127}, 64);
+        assertArrayEquals(
+                new int[] {
+                        0,1,0,0,0,0,0,0,
+                        1,0,1,1,0,0,0,0,
+                        1,1,1,1,1,1,1,0,
+                        0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,
+                },
+                bs1.toArray()
+        );
+    }
+
+    @Test
+    public void getNoBound() {
+        BitStructure bs1 = new BitStructure(new int[]{1, 0});
+        assertArrayEquals(
+                new int[] {1, 0, 0, 0, 0},
+                bs1.getNoBound(0, 5).toArray());
+
+        assertArrayEquals(
+                new int[] {0},
+                bs1.getNoBound(4, 5).toArray());
+    }
+
+    @Test
+    public void getBytes() {
+        BitStructure bs1 = new BitStructure(new int[]{1, 0});
+        assertArrayEquals(
+                new byte[] {1},
+                bs1.getBytes());
+
+        bs1 = new BitStructure(new int[]{
+                0,1,0,0,0,0,0,0,
+                1,0,1,1,0,0,0,0,
+                1,1,1,1,1,1,1,0
+        });
+
+        assertArrayEquals(
+                new byte[] {2, 13, 127},
+                bs1.getBytes());
+
+        bs1 = new BitStructure(new int[]{
+                0,1,0,0,0,0,0,0,
+                1,0,1,1,0,0,0,0,
+                1,1,1,1,1,1,1,0,
+                0,1,0,
+        });
+
+        assertArrayEquals(
+                new byte[] {2, 13, 127, 2},
+                bs1.getBytes());
     }
 }
 

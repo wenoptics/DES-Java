@@ -6,7 +6,7 @@ import java.util.BitSet;
 
 public class BitStructure {
     private BitSet bitSet;
-    private int n_bits = 8;
+    private int n_bits = 0;
 
     public BitStructure(int n_bits) {
         bitSet = new BitSet(n_bits);
@@ -33,6 +33,22 @@ public class BitStructure {
         this.n_bits = n_bits;
     }
 
+    public BitStructure(byte[] input) {
+        this.bitSet = new BitSet(0);
+        for (byte b : input) {
+            this.extend(new BitStructure(b, 8));
+        }
+        assert this.length() == input.length * 8;
+    }
+
+    public BitStructure(byte[] input, int n_bits) {
+        this.bitSet = new BitSet(0);
+        for (byte b : input) {
+            this.extend(new BitStructure(b, 8));
+        }
+        this.n_bits = n_bits;
+    }
+
     public BitSet getBitSet() {
         return this.bitSet;
     }
@@ -45,6 +61,10 @@ public class BitStructure {
     public BitStructure get(int fromBit, int toBit) {
         assert fromBit < this.length();
         assert toBit <= this.length();
+        return new BitStructure(bitSet.get(fromBit, toBit), toBit - fromBit);
+    }
+
+    public BitStructure getNoBound(int fromBit, int toBit) {
         return new BitStructure(bitSet.get(fromBit, toBit), toBit - fromBit);
     }
 
@@ -87,6 +107,19 @@ public class BitStructure {
         return Utils.bin2int(this.toArray());
     }
 
+    public byte[] getBytes() {
+        int len = length() / 8;
+        if (length() % 8 != 0) {
+            len++;
+        }
+
+        byte[] output = new byte[len];
+        for (int i = 0; i < len; i++) {
+            output[i] = (byte) getNoBound(8*i, 8*(i+1)).getValue();
+        }
+
+        return output;
+    }
 
 
 }

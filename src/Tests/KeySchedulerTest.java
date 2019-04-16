@@ -11,7 +11,7 @@ public class KeySchedulerTest {
     @Test
     public void rotateLeft() {
         assertArrayEquals(
-                new int[] {1, 0, 0, 1, 0, 1},
+                new int[] { 0, 1, 1, 0, 0, 1, },
                 KeyScheduler.rotateLeft(new BitStructure(new int[]{0, 1, 0, 1, 1, 0}), 2).toArray()
         );
     }

@@ -1,5 +1,8 @@
 package Util;
 
+import Algorithm.DES;
+import DataStructures.BitStructure;
+
 import java.util.BitSet;
 
 public class Utils {
@@ -72,4 +75,39 @@ public class Utils {
         }
         return bits;
     }
+
+    public static byte[] encryptBytes(byte[] input, byte[] key) {
+
+        // construct the key from the first 64 bit of the key
+        BitStructure bsKey = new BitStructure(key, 64);
+
+        BitStructure bsInput = new BitStructure(input);
+        BitStructure desOutput = new BitStructure(0);
+
+        // chuck to 64-bits
+        for (int i = 0; i < input.length; i+=64) {
+            BitStructure bs = bsInput.getNoBound(i, i + 64);
+            desOutput.extend(DES.encrypt(bs, bsKey));
+        }
+
+        return desOutput.getBytes();
+    }
+
+    public static byte[] decryptBytes(byte[] input, byte[] key) {
+
+        // construct the key from the first 64 bit of the key
+        BitStructure bsKey = new BitStructure(key, 64);
+
+        BitStructure bsInput = new BitStructure(input);
+        BitStructure desOutput = new BitStructure(0);
+
+        // chuck to 64-bits
+        for (int i = 0; i < input.length; i+=64) {
+            BitStructure bs = bsInput.getNoBound(i, i + 64);
+            desOutput.extend(DES.decrypt(bs, bsKey));
+        }
+
+        return desOutput.getBytes();
+    }
+
 }
