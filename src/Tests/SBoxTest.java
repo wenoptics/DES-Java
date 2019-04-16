@@ -14,5 +14,13 @@ public class SBoxTest {
                 SBox.doSBox(2,
                         new BitStructure(
                                 new int[]{1, 1, 1, 0, 1, 0})).getValue());
+
+
+        assertArrayEquals(
+                new int[] {1,0,1,0},
+                SBox.doSBox(0,
+                        new BitStructure(
+                                new int[]{0,1,1,0,1,1})).toArray());
+
     }
 }

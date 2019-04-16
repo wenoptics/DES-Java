@@ -66,6 +66,6 @@ public class SBox {
 
         int sub_val = SBox.SBOX[round_n][row][col];
 
-        return new BitStructure(sub_val, 32);
+        return new BitStructure(sub_val, 4);
     }
 }

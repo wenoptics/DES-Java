@@ -2,7 +2,10 @@ package Algorithm;
 
 import DataStructures.BitStructure;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collections;
 
 
 public class KeyScheduler {
@@ -91,18 +94,21 @@ public class KeyScheduler {
         assert part1.length() == halfKeyLength;
         BitStructure part2 = activeKey.get(halfKeyLength, keyLength);
 
+        BitStructure _tmp;
         for (int k = 0; k < ROUND_N; k++) {
             part1 = rotateLeft(part1, bitShift[k]);            // perform the rotation
             part2 = rotateLeft(part2, bitShift[k]);
-            part1.extend(part2);                                // concatenate two part of subkey
-            part1 = Permutation.performPermutation(part1, 48, PC2);               //perform the PC2
-            subKeySet[k] = part1;                          // add into List
+            _tmp = new BitStructure(part1.toArray());
+            _tmp.extend(part2);                                // concatenate two part of subkey
+            _tmp = Permutation.performPermutation(_tmp, 48, PC2);               //perform the PC2
+            subKeySet[k] = _tmp;                          // add into List
         }
         return subKeySet;
     }
 
     public BitStructure[] getDecryptionKeys() {
-        //todo
-        return null;
+        BitStructure[] bs = getEncryptionKeys();
+        Collections.reverse(Arrays.asList(bs));
+        return bs;
     }
 }

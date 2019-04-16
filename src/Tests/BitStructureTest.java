@@ -50,6 +50,18 @@ public class BitStructureTest {
                 new int[]{0, 1, 1, 0},
                 bs1.toArray()
         );
+
+        bs2 = new BitStructure(0);
+        bs1 = new BitStructure(new int[]{1, 0, 1});
+        assertEquals(0, bs2.length());
+        assertEquals(3, bs1.length());
+
+        bs2.extend(bs1);
+
+        assertArrayEquals(
+                bs1.toArray(),
+                bs2.toArray()
+        );
     }
 
     @Test
