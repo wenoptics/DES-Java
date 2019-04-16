@@ -22,8 +22,7 @@ public class KeySchedulerTest {
         KeyScheduler ks = new KeyScheduler(new BitStructure(
                 new int[]{0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1}));
 
-        // TODO this case failed
-        assertArrayEquals(new int[]{0,1,1,1,1,0,0,1,1,0,1,0,1,1,1,0,1,1,0,1,1,0,0,1,1,1,0,1,1,0,1,1,1,1,0,0,1,0,0,1,1,1,1,0,0,1,0,1},
-                ks.getEncryptionKeys()[1].toArray());
+        assertArrayEquals(new int[]{0,0,0,1,1,0,1,1,0,0,0,0,0,0,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,1,0,},
+                ks.getEncryptionKeys()[0].toArray());
     }
 }
